@@ -56,6 +56,9 @@ public class InventoryManagment {
         Branch branch1 = new Branch(1, "Super-Li Beer-Sheva");
         cstore.addBranch(1, branch1);
         branchDAO.add(branch1);
+        Branch branch2 = new Branch(2, "Super-Li Tel-Aviv");
+        cstore.addBranch(2, branch2);
+        branchDAO.add(branch2);
         Category c11 = new Category(111, "Dairy", null);
         Category c12 = new Category(121, "Milk", c11);
         Category c13 = new Category(131, "Liter Milk", c12);
