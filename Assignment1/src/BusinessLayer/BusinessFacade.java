@@ -2,15 +2,8 @@ package BusinessLayer;
 
 import BusinessLayer.InventoryModule.*;
 import BusinessLayer.SuppliersModule.*;
-import DataAccessLayer.SuppliersModule.Database;
-import DataAccessLayer.SuppliersModule.ManufacturerDAO;
-import DataAccessLayer.SuppliersModule.SupplierDAO;
-import PresentationLayer.SuppliersModule.UserController;
 
-import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 public class BusinessFacade

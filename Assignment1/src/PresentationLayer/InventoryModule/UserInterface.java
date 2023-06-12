@@ -4,11 +4,7 @@ import BusinessLayer.InventoryModule.InventoryManagment;
 import java.time.LocalDate;
 import java.util.*;
 import BusinessLayer.InventoryModule.ReportMaker;
-import BusinessLayer.SuppliersModule.ManufacturerController;
-import BusinessLayer.SuppliersModule.OrdersController;
-import BusinessLayer.SuppliersModule.SuppliersController;
 import DataAccessLayer.SuppliersModule.Database;
-import PresentationLayer.SuppliersModule.UserController;
 
 import static java.lang.Integer.parseInt;
 public class UserInterface {

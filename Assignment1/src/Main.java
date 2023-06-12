@@ -1,7 +1,8 @@
 import BusinessLayer.BusinessFacade;
 import BusinessLayer.InventoryModule.InventoryManagment;
 import PresentationLayer.InventoryModule.UserInterface;
-import PresentationLayer.SuppliersModule.UserController;
+import PresentationLayer.SuppliersModule.GUI.GUIForm;
+import PresentationLayer.SuppliersModule.GUI.UserController;
 
 import java.util.*;
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -16,6 +17,8 @@ public class Main
         //businessFacade.initialize();
         //businessFacade.initializeSuppliersModule();
         InventoryManagment.getInstance().restoreAll();
+        //show menu
+        GUIForm.suppliersMenu.setVisible(true);
         UserController userController = UserController.getInstance();
         UserInterface userInterface = UserInterface.getInstance();
         System.out.println("============ Welcome To Super-Li! ============");

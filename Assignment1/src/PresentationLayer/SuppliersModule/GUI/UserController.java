@@ -1,4 +1,4 @@
-package PresentationLayer.SuppliersModule;
+package PresentationLayer.SuppliersModule.GUI;
 
 import BusinessLayer.SuppliersModule.*;
 import java.time.LocalDate;
@@ -8,7 +8,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 import BusinessLayer.SuppliersModule.Day;
 import DataAccessLayer.SuppliersModule.*;
-import java.time.format.DateTimeFormatter;
 
 public class UserController
 {
@@ -105,9 +104,7 @@ public class UserController
                         domains.add(scanner.next());
                     }
                     //receive supplier contact details
-                    System.out.println("how many persons of contact does the supplier have?");
-                    expected_amount = scanner.nextInt();
-                    System.out.println("insert POC  name");
+                    System.out.println("insert POC name");
                     poc_names = scanner.next();
                     System.out.println("insert phone number");
                     phone_numbers = scanner.next();
