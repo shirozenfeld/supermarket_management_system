@@ -4,7 +4,6 @@
 This project is a desktop application developed in **Java Swing** to manage the inventory and supply chain of a supermarket. The system consists of a **Presentation Layer**, **Business Layer**, and **Data Access Layer**, designed and developed using **high cohesion and low coupling principles**. The architecture employs **design patterns** such as **Controller**, **DAO**, **Singleton**, and **MVC**, ensuring scalability and maintainability. The GUI is intuitive and designed for efficient user interaction.
 
 <div id="carousel" style="max-width:500px; margin: auto; position: relative;">
-  <img src="helloscreen.png" alt="Image 1" style="width:100%; display:block;">
   <img src="suppliers_management_screen.png" alt="Image 2" style="width:100%; display:none;">
   <img src="watch_suppliers_contracts_screen.png" alt="Image 3" style="width:100%; display:none;">
   <img src="deficiencies_report.png" alt="Image 3" style="width:100%; display:none;">
