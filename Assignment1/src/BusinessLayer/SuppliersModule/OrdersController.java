@@ -33,6 +33,14 @@ public class OrdersController
         this.manufacturerDAO=DataAccessLayer.SuppliersModule.ManufacturerDAO.getManufacturerInstance();
         this.superProductDAO=DataAccessLayer.SuppliersModule.SuperProductDAO.getSuperProductInstance();
         this.periodicOrders_Queue = new HashMap<>();
+
+    }
+
+    public void initializeCounters()
+    {
+        Order.periodic_orders_counter= orderDAO.getMaxPeriodicOrderNumber();
+        Order.shortage_orders_counter=orderDAO.getMaxShortageOrderNumber();
+        DeficienciesReport.report_counter=deficienciesReportDAO.getMaxReportID();
     }
 
     public static OrdersController getInstance()
@@ -489,8 +497,25 @@ public class OrdersController
         orderDAO.removeAllOrders();
     }
 
-    public void addPeriodicOrder(Order order)
+    public String getPeriodicOrderNumberBySupplierID(String supplierID)
     {
+        return orderDAO.getPeriodicOrdersBySupplierID(supplierID);
+    }
+    public void removePeriodicOrderByOrderID(String orderid)
+    {
+        orderDAO.removePeriodicOrderBySupplierID(orderid);
+    }
+
+    /*public void addPeriodicOrder(Order order)
+    {
+        orderDAO.addPeriodicOrder(order);
+    }
+
+     */
+    public void addPeriodicOrder(String type,String supplierID, Map<Integer,Integer> map)
+    {
+                Order order = new Order(type,supplierID);
+        order.setProducts(map);
         orderDAO.addPeriodicOrder(order);
     }
 

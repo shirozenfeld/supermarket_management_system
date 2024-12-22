@@ -47,6 +47,7 @@ public class SupplierDAO
         {
 
             //handle contact
+
             stmtContact=conn.prepareStatement("INSERT INTO Contact_Details (SupplierID,Street,City,PhoneNumber,Poc,BuildingNumber,Email) VALUES (?,?,?,?,?,?,?)");
             stmtContact.setInt(1,supplier_id);
             stmtContact.setString(2,contact.getStreet());
@@ -57,6 +58,8 @@ public class SupplierDAO
             stmtContact.setString(7,contact.getEmail());
             stmtContact.executeUpdate();
             //handle Days
+
+
             if (supplier instanceof PersistentVisiting)
             {
                     visitingDays = ((PersistentVisiting) supplier).getDays();
@@ -68,6 +71,8 @@ public class SupplierDAO
                     updateVisitingDays(this.daysID_counter,visitingDays);
                     stmtDays.executeUpdate();
             }
+
+
             stmtSupplier = conn.prepareStatement("INSERT INTO Suppliers (SupplierName,VisitingDays,BankAccountNumber,PHCNumber,PaymentCondition,PeriodicDay,SupplierType,DelayDays) VALUES (?,?,?,?,?,?,?,?)");
             //stmtSupplier.setInt(1, supplier_id);
             stmtSupplier.setString(1, supplier.getSupplierName());
@@ -216,12 +221,11 @@ public class SupplierDAO
                     String paymentCondition = supplierRS.getString("PaymentCondition");
                     String PeriodicDay = supplierRS.getString("PeriodicDay");
                     String SupplierType = supplierRS.getString("SupplierType");
-                    //try - contact
+
                     PreparedStatement contactStmt = conn.prepareStatement("SELECT * FROM Contact_Details WHERE SupplierID =?");
                     contactStmt.setInt(1, int_supplier_id);
                     ResultSet contactRS = contactStmt.executeQuery();
-                    //if (contactRS.next())
-                    //{
+
                         String Street = contactRS.getString("Street");
                         String City = contactRS.getString("City");
                         String PhoneNumber = contactRS.getString("PhoneNumber");
@@ -230,9 +234,8 @@ public class SupplierDAO
                         String Email = contactRS.getString("Email");
                         contact = new Contact(Poc, PhoneNumber, Email, City, Street, BuildingNumber);
                         card = new Card(PHCNumber, bankAccount, contact, Card.Bill.valueOf(paymentCondition), Enum.valueOf(Day.class, PeriodicDay));
-                    //}
-                    OrderDAO orderDAO = OrderDAO.getOrderInstance();
 
+                    OrderDAO orderDAO = OrderDAO.getOrderInstance();
                     Map<String, Order> shortage_orders = orderDAO.getShortageOrdersBySupplier(supplier_id);
                     Collection<Order> ordersCollection = shortage_orders.values();
                     List<Order> shortageOrdersList = new ArrayList<>(ordersCollection);
@@ -338,7 +341,8 @@ public class SupplierDAO
         try {
             PreparedStatement stmt69 = conn.prepareStatement("SELECT SupplierID FROM Suppliers");
             ResultSet rs = stmt69.executeQuery();
-            while (rs.next()) {
+            while (rs.next())
+            {
                 String supplierID = String.valueOf(rs.getInt("SupplierID"));
                 Supplier supplier = getSupplierBySupplierID(supplierID);
                 suppliersList.put(supplierID, supplier);
@@ -393,7 +397,7 @@ public class SupplierDAO
         return max_catalogNumber;
     }
 
-        public void removeAllSupplier()
+    public void removeAllSupplier()
         {
         try
         {
@@ -414,5 +418,6 @@ public class SupplierDAO
             System.out.println(e.getMessage());
         }
         }
+
 
     }

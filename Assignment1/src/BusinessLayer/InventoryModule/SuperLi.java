@@ -9,13 +9,11 @@ public class SuperLi {
     private Map<Integer, Branch> branchList;
     private Map<Integer, BasicItem> BasicItems;
     private Map<Integer, PeriodicOrder> periodicOrders;
-    //private Map<Integer, String> workers;
 
     public SuperLi() {
         this.branchList = new HashMap<>();
         this.BasicItems = new HashMap<>();
         this.periodicOrders = new HashMap<>();
-        //this.workers = new HashMap<>();
     }
 
     public void addBranch(int branchID, Branch branch){

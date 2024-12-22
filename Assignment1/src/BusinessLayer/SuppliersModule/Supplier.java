@@ -6,7 +6,7 @@ import java.util.Map;
 public abstract class Supplier
 {
     static int supplier_id_counter=0;
-    int periodic_order_id__counter = 0;
+    int periodic_order_id__counter;
     String supplier_id;
     String name;
     List<String> domains;
@@ -15,6 +15,7 @@ public abstract class Supplier
     Contract contract;
     Card card;
     Map<String,Order> periodicOrder_list;
+    int shortage_order_id__counter;
 
     int supplier_catalog_numbers_counter;
     public Supplier(String name, List<String> domains, Card card,Contract contract)
@@ -29,6 +30,8 @@ public abstract class Supplier
         this.contract=contract;
         this.supplier_catalog_numbers_counter=0;
         this.periodicOrder_list=new HashMap<>();
+        this.periodic_order_id__counter=0;
+        this.shortage_order_id__counter=0;
     }
     public Supplier(String supplierID, String name, List<String> domains, Card card,Contract contract,int supplier_catalog_numbers_counter)
     {
@@ -41,6 +44,7 @@ public abstract class Supplier
         this.contract=contract;
         this.supplier_catalog_numbers_counter= supplier_catalog_numbers_counter;
         this.periodicOrder_list=new HashMap<>();
+
     }
 
     public String getSupplier_id() {

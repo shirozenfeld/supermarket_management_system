@@ -14,6 +14,7 @@ public class SuppliersController {
     DataAccessLayer.SuppliersModule.SupplierProductDAO supplierProductDAO;
     DataAccessLayer.SuppliersModule.SuperProductDAO superProductDAO;
     DataAccessLayer.SuppliersModule.OrderDAO orderDAO;
+    ManufacturerController manufacturerController;
     private static SuppliersController instance=null;
 
     private SuppliersController()
@@ -26,6 +27,7 @@ public class SuppliersController {
         this.manufacturerDAO=DataAccessLayer.SuppliersModule.ManufacturerDAO.getManufacturerInstance();
         this.superProductDAO=DataAccessLayer.SuppliersModule.SuperProductDAO.getSuperProductInstance();
         Supplier.setSupplier_id_counter(supplierDAO.getMaxID());
+        this.manufacturerController=ManufacturerController.getInstance();
     }
 
     public static SuppliersController getInstance()
@@ -250,6 +252,39 @@ public class SuppliersController {
     public SupplierProduct getSupplierProduct(String barcode, String supplierID){
         return supplierProductDAO.getSupplierProduct(barcode, supplierID);
     }
+
+
+    public Map<String,List<String[]>> getSuppliersContracts()
+    {
+        Map<String,List<String[]>> contracts=new HashMap<>();
+        Map<String,Supplier> suppliers= supplierDAO.getAllSuppliers();
+        for(Map.Entry<String, Supplier> entry : suppliers.entrySet())
+        {
+
+            for(Map.Entry<String, SupplierProduct> entry1 : entry.getValue().getContract().getProducts().entrySet())
+            {
+                String [] values=new String[6];
+                values[0]= entry.getKey();
+                values[1]=manufacturerController.getAllSuperProducts().get(entry1.getKey()).getProduct_name();
+                values[2]=manufacturerController.getAllSuperProducts().get(entry1.getKey()).getManufacturer().getManufacturer_name();
+                values[3]=String.valueOf(entry1.getValue().getCatalog_number());
+                values[4]=String.valueOf(entry1.getValue().getAmount());
+                values[5]=String.valueOf(entry1.getValue().getUnit_price());
+                if(contracts.containsKey(entry.getKey()))
+                {
+                    contracts.get(entry.getKey()).add(values);
+                }
+                else
+                {
+                    List<String[]> list=new ArrayList<>();
+                    list.add(values);
+                    contracts.put(entry.getKey(),list);
+                }
+            }
+        }
+        return contracts;
+    }
+
 
     public void removeSupplier(String supplierID){
         supplierDAO.delete(supplierID);

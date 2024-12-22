@@ -13,6 +13,11 @@ public class InventoryManagment {
     private InventoryItemDAO inviDAO;
     private ItemDAO iDAO;
     private PeriodicOrderDAO poDAO;
+
+    public SuperLi getSuperli() {
+        return superli;
+    }
+
     private SuperLiDAO slDAO;
     private SuperLi superli;
     private Branch branch;
@@ -56,9 +61,6 @@ public class InventoryManagment {
         Branch branch1 = new Branch(1, "Super-Li Beer-Sheva");
         cstore.addBranch(1, branch1);
         branchDAO.add(branch1);
-        Branch branch2 = new Branch(2, "Super-Li Tel-Aviv");
-        cstore.addBranch(2, branch2);
-        branchDAO.add(branch2);
         Category c11 = new Category(111, "Dairy", null);
         Category c12 = new Category(121, "Milk", c11);
         Category c13 = new Category(131, "Liter Milk", c12);
@@ -112,7 +114,7 @@ public class InventoryManagment {
         c11.addToList(i1);
         c12.addToList(i1);
         c13.addToList(i1);
-        InventoryItem i2 = new InventoryItem(25, 0, 29.9, 1);
+        InventoryItem i2 = new InventoryItem(25, 1, 29.9, 1);
         inviDAO.add(i2);
         i2.addToSellPriceHistory(i2.getSellPrice());
         InventoryItem i3 = new InventoryItem(26, 1, 24.9, 1);
@@ -144,6 +146,14 @@ public class InventoryManagment {
         iDAO.add(it2);
         biDAO.update(b2);
         branch1.addToStoreInventory(it2.getID(), it2);
+        i2.addToStore();
+
+        Item it4 = new Item(b2.getName(), b2.getCatalogNum(), b2.getManufacturer(), b2.getCostPrice(), b2.getItemCategories(),
+                i2.getSellPrice(), 0, (b2.getCatalogNum() * 1000 + b2.updateIDcounter()) * 10 + branch1.getBranchID(), LocalDate.of(2028, 12, 28), ProductIntegrity.Null,
+                "null", Location.store, b2.getIDcounter());
+        iDAO.add(it4);
+        biDAO.update(b2);
+        branch1.addToStoreInventory(it4.getID(), it4);
         i2.addToStore();
         Item it3 = new Item(b3.getName(), b3.getCatalogNum(), b3.getManufacturer(), b3.getCostPrice(), b3.getItemCategories(),
                 i3.getSellPrice(), 0, (b3.getCatalogNum() * 1000 + b3.updateIDcounter()) * 10 + branch1.getBranchID(), LocalDate.of(2026, 06, 8), ProductIntegrity.Null,
@@ -336,8 +346,8 @@ public class InventoryManagment {
         int minimumAmount = invi.getMinimumAmount();
         int totalAmount = invi.getTotalAmount();
         if (minimumAmount >= totalAmount) {
-            if (branch.isInShortage(ID) == null) {
-                branch.addToShortageItems(ID, invi);
+            if (branch.isInShortage(ID/10000) == null) {
+                branch.addToShortageItems(ID/10000, invi);
                 branchDAO.addToShortage(itemID/10000, (int)(invi.getMinimumAmount()*1.5), myItem.getManufacturer());
             }
             toReturn.add(minimumAmount);

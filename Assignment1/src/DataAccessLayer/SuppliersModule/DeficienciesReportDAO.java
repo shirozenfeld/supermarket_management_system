@@ -16,12 +16,12 @@ public class DeficienciesReportDAO
     private static DeficienciesReportDAO instance;
     private Map<String, DeficienciesReport> identityMap; //string =
     //PreparedStatement stmt;
-    private static int report_id_counter;
+
     private DeficienciesReportDAO() throws SQLException
     {
         this.conn=Database.getDataBaseInstance().getConnection();
         this.identityMap = new HashMap<>();
-        this.report_id_counter=0;
+
     }
 
 
@@ -39,6 +39,25 @@ public class DeficienciesReportDAO
         return instance;
     }
 
+    public int getMaxReportID() {
+
+        int currReportID=0;
+        try {
+            PreparedStatement stmt44 = conn.prepareStatement("SELECT MAX(ReportID) FROM ShortageOrders ");
+            ResultSet rs = stmt44.executeQuery();
+            while (rs.next()) {
+                currReportID = rs.getInt(1) ;
+            }
+
+        } catch (SQLException e)
+        {
+            System.out.println("An error occurred");
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+
+        }
+        return currReportID;
+    }
     public void deleteByFailure()
     {
         try
@@ -75,13 +94,12 @@ public class DeficienciesReportDAO
                 products.put(barcode,amountToOrder);
             }
             Map<SuperProduct,Integer> productsObjects=new HashMap<SuperProduct,Integer>();
-            for (Map.Entry<String, Integer> entry : products.entrySet())
-            {
-                SuperProduct superProduct=superProductDAO.getSuperProductByBarcode(entry.getKey());
+            for (Map.Entry<String, Integer> entry : products.entrySet()) {
+                SuperProduct superProduct = superProductDAO.getSuperProductByBarcode(entry.getKey());
                 int amount = entry.getValue();
-                productsObjects.put(superProduct,amount);
+                productsObjects.put(superProduct, amount);
             }
-            deficienciesReport.setReport_id(String.valueOf(report_id_counter));
+
             deficienciesReport.setReport_status(DeficienciesReport.Status.valueOf("in_process"));
             deficienciesReport.setProductsList(products);
             deficienciesReport.setProducts(productsObjects);
@@ -93,7 +111,7 @@ public class DeficienciesReportDAO
             e.printStackTrace();
             System.out.println(e.getMessage());
         }
-        report_id_counter++;
+
         return deficienciesReport;
     }
 
@@ -127,6 +145,7 @@ public class DeficienciesReportDAO
             stmt3 = conn.prepareStatement("SELECT * FROM ShortageReport WHERE Date=?");
             stmt3.setDate(1, Date.valueOf(date));
             rs = stmt3.executeQuery();
+            String reportid="";
             while (rs.next())
             {
                 String barcode=String.valueOf(rs.getInt("Barcode"));
@@ -135,8 +154,9 @@ public class DeficienciesReportDAO
                 SuperProductDAO superProductDAO = SuperProductDAO.getSuperProductInstance();
                 SuperProduct superProduct = superProductDAO.getSuperProductByBarcode(barcode);
                 products.put(superProduct,amountToOrder);
+                reportid=String.valueOf(rs.getInt("ReportID"));
             }
-            report.setReport_id(String.valueOf(report_id_counter));
+            report.setReport_id(reportid);
             report.setReport_status(DeficienciesReport.Status.valueOf("in_process"));
             report.setProducts(products);
 
@@ -153,7 +173,7 @@ public class DeficienciesReportDAO
             stmt3.setDate(1, Date.valueOf(date));
             rs = stmt3.executeQuery();
             OrderDAO orderDAO = OrderDAO.getOrderInstance();
-            if (rs.next()) 
+            if (rs.next())
             {
                 String reportID = String.valueOf(rs.getInt("ReportID"));
                 report.setOrders(orderDAO.getOrdersByReportID(reportID));

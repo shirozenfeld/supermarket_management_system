@@ -17,6 +17,7 @@ public class BusinessFacade
 
     private BusinessFacade()
     {
+
         this.manufacturerController = ManufacturerController.getInstance();
         this.ordersController=OrdersController.getInstance();
         this.suppliersController=SuppliersController.getInstance();
@@ -46,6 +47,7 @@ public class BusinessFacade
     {
 
         this.ordersController.removeAllOrders();
+        this.ordersController.initializeCounters();
         this.suppliersController.removeAllSupplierDiscounts();
         this.suppliersController.removeAllSupplierProducts();
         this.manufacturerController.removeAllManufacturers();
@@ -68,9 +70,10 @@ public class BusinessFacade
 
         Map<Integer,Integer> map=new HashMap<>();
         map.put(1,1);
-        Order order = new Order("Periodic","1");
-        order.setProducts(map);
-        this.ordersController.addPeriodicOrder(order);
+
+        //Order order = new Order("Periodic","1");
+        //order.setProducts(map);
+        this.ordersController.addPeriodicOrder("Periodic","1",map);
 
     }
 

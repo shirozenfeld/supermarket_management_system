@@ -17,7 +17,7 @@ public class DamagedExpiredReport implements Report {
             if(item.getDamage() == ProductIntegrity.Expired){
                 fmt.format("%15s %25s %15s %15s %15s %25s %15s\n", item.getCatalogNum(), item.getName(),item.getManufacturer(), item.getID(), item.getDamage(), item.getDamageType(), item.getExpireDate());
             }
-            if(item.getDamage() == ProductIntegrity.Null && (LocalDate.now().until(item.getExpireDate(), ChronoUnit.DAYS) <= 7 )){
+            if(item.getExpireDate() != null && item.getDamage() == ProductIntegrity.Null && (LocalDate.now().until(item.getExpireDate(), ChronoUnit.DAYS) <= 7 )){
                 fmt.format("%15s %25s %15s %15s %15s %25s %15s\n", item.getCatalogNum(), item.getName(),item.getManufacturer(), item.getID(), item.getDamage(), item.getDamageType(), item.getExpireDate());
             }
         });
@@ -25,7 +25,7 @@ public class DamagedExpiredReport implements Report {
             if(item.getDamage() == ProductIntegrity.Expired){
                 fmt.format("%15s %25s %15s %15s %15s %25s %15s\n", item.getCatalogNum(), item.getName(),item.getManufacturer(), item.getID(), item.getDamage(), item.getDamageType(), item.getExpireDate());
             }
-            if(item.getDamage() == ProductIntegrity.Null && item.getExpireDate()!= null && (LocalDate.now().until(item.getExpireDate(), ChronoUnit.DAYS) <= 7 )){
+            if(item.getExpireDate() != null && item.getDamage() == ProductIntegrity.Null && item.getExpireDate()!= null && (LocalDate.now().until(item.getExpireDate(), ChronoUnit.DAYS) <= 7 )){
                 fmt.format("%15s %25s %15s %15s %15s %25s %15s\n", item.getCatalogNum(), item.getName(),item.getManufacturer(), item.getID(), item.getDamage(), item.getDamageType(), item.getExpireDate());
             }
         });
@@ -44,7 +44,7 @@ public class DamagedExpiredReport implements Report {
                 if(item.getDamage() == ProductIntegrity.Damaged && item.getItemCategories().contains(now)){
                     fmt.format("%%15s %15s %25s %15s %15s %15s %25s %15s\n",now.getcName(), item.getCatalogNum(), item.getName(),item.getManufacturer(), item.getID(), item.getDamage(), item.getDamageType(), item.getExpireDate());
                 }
-                if(item.getDamage() == ProductIntegrity.Null && (LocalDate.now().until(item.getExpireDate(), ChronoUnit.DAYS) <= 7 ) && item.getItemCategories().contains(now)){
+                if(item.getExpireDate() != null && item.getDamage() == ProductIntegrity.Null && (LocalDate.now().until(item.getExpireDate(), ChronoUnit.DAYS) <= 7 ) && item.getItemCategories().contains(now)){
                     fmt.format("%15s %15s %25s %15s %15s %15s %25s %15s\n",now.getcName(), item.getCatalogNum(), item.getName(),item.getManufacturer(), item.getID(), item.getDamage(), item.getDamageType(), item.getExpireDate());
                 }
             });
@@ -55,7 +55,7 @@ public class DamagedExpiredReport implements Report {
                 if(item.getDamage() == ProductIntegrity.Damaged && item.getItemCategories().contains(now)){
                     fmt.format("%15s %15s %25s %15s %15s %15s %25s %15s\n",now.getcName(), itemCN, item.getName(),item.getManufacturer(), item.getID(), item.getDamage(), item.getDamageType(), item.getExpireDate());
                 }
-                if(item.getDamage() == ProductIntegrity.Null && (LocalDate.now().until(item.getExpireDate(), ChronoUnit.DAYS) <= 7 ) && item.getItemCategories().contains(now)){
+                if(item.getExpireDate() != null && item.getDamage() == ProductIntegrity.Null && (LocalDate.now().until(item.getExpireDate(), ChronoUnit.DAYS) <= 7 ) && item.getItemCategories().contains(now)){
                     fmt.format("%15s %15s %25s %15s %15s %15s %25s %15s\n",now.getcName(), itemCN, item.getName(),item.getManufacturer(), item.getID(), item.getDamage(), item.getDamageType(), item.getExpireDate());
                 }
             });

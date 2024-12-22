@@ -2,7 +2,8 @@ package DataAccessLayer.InventoryModule;
 import java.sql.*;
 public class Database
 {
-    private static final String DB_URL = "jdbc:sqlite:identifier.sqlite";
+    private static final String DB_URL = "jdbc:sqlite::resource:identifier.sqlite";
+    //private static final String DB_URL = "jdbc:sqlite:identifier.sqlite";
     private static Database instance;
     private Connection conn;
     private Database()

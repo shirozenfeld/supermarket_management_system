@@ -7,7 +7,7 @@ public class DeficienciesReport
 {
     Map<String, Order> orders;
     String report_id;
-    static int counter=0;
+    static int report_counter;
     Map<SuperProduct,java.lang.Integer> products;
     Status report_status;
 
@@ -15,9 +15,9 @@ public class DeficienciesReport
 
     public DeficienciesReport()
     {
-            counter++;
+            report_counter++;
             this.products=new HashMap<SuperProduct,java.lang.Integer>();
-            this.report_id = Integer.toString(counter);
+            this.report_id = Integer.toString(report_counter);
             this.orders=new HashMap<String, Order>();
             this.report_status=Status.in_process;
 
@@ -41,7 +41,9 @@ public class DeficienciesReport
     {
         this.report_status=Status.completed;
     }
+
     public Status getReport_status(){return this.report_status;}
+
     public enum Status{in_process,completed}
 
     public void setOrders(Map<String, Order> orders) {

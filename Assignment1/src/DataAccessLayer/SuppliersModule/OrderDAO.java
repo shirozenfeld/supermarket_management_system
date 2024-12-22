@@ -17,7 +17,8 @@ public class OrderDAO {
 
     SupplierDAO supplierDAO;
 
-    private OrderDAO() {
+    private OrderDAO()
+    {
         this.conn=Database.getDataBaseInstance().getConnection();
         this.identityMap = new HashMap<>();
         this.supplierDAO = SupplierDAO.getSupplierInstance();
@@ -93,7 +94,8 @@ public class OrderDAO {
         }
         PreparedStatement stmt2 = null;
         //insert a new line for each product in the order
-        for (Map.Entry<Integer, Integer> entry : order.getProducts().entrySet()) {
+        for (Map.Entry<Integer, Integer> entry : order.getProducts().entrySet())
+        {
             String barcode = catalognumber_supplierproduct.get(entry.getKey()).getSupermarket_id();
             int amount = entry.getValue();
             try {
@@ -113,7 +115,7 @@ public class OrderDAO {
                 System.out.println(e.getMessage());
             }
         }
-        identityMap.put(order_id, order);
+        //identityMap.put(order_id, order);
     }
 
     public void update(Object obj) {
@@ -303,7 +305,7 @@ public class OrderDAO {
                             stmtCatalogNumber.setInt(2,Integer.parseInt(supplier_id));
                             ResultSet rsCatalogNumber=stmtCatalogNumber.executeQuery();
                             if(rsCatalogNumber.next())
-                                catalogNumber=rsCatalogNumber.getInt("CatalogNumber ");
+                                catalogNumber=rsCatalogNumber.getInt("CatalogNumber");
 
                         }
                         catch(SQLException e)
@@ -315,12 +317,10 @@ public class OrderDAO {
                         if (orders.containsKey(order_id))
                             orders.get(order_id).addToPeriodicOrder(catalogNumber,amount);
                         else {
-                            Order order = new Order(rs.getString("Type"),String.valueOf(rs.getInt("SupplierID")),String.valueOf(rs.getInt("ReportID")));
-                            order.setFinale_price(rs.getDouble("FinalPrice"));
-                            order.setFirst_price(rs.getDouble("InitialPrice"));
+                            Order order = new Order(rs.getString("Type"),String.valueOf(rs.getInt("SupplierID")),"-1");
+                            orders.put(order_id,order);
                             orders.get(order_id).addToPeriodicOrder(catalogNumber, amount);
-                            orders.put(order_id, order);
-                            identityMap.put(order_id,order);
+                            //identityMap.put(order_id,order);
                         }
                     }
                 }
@@ -439,11 +439,11 @@ public class OrderDAO {
 
     public void removeOrdersByReportID(String reportID)
     {
-        int int_reportID=Integer.parseInt(reportID);
+        int reportintID=Integer.parseInt(reportID);
         try
         {
             PreparedStatement stmt11 = conn.prepareStatement("DELETE FROM ShortageOrders WHERE ReportID=?");
-            stmt11.setInt(1, int_reportID);
+            stmt11.setInt(1, reportintID);
             stmt11.executeQuery();
         }
         catch (SQLException e) {
@@ -452,4 +452,80 @@ public class OrderDAO {
             System.out.println(e.getMessage());
         }
     }
+    public void removePeriodicOrderBySupplierID(String orderid)
+    {
+        int int_orderid=Integer.parseInt(orderid);
+        try
+        {
+            PreparedStatement stmt11 = conn.prepareStatement("DELETE FROM PeriodicOrder WHERE OrderID=?");
+            stmt11.setInt(1, int_orderid);
+            stmt11.executeUpdate();
+        }
+        catch (SQLException e) {
+            System.out.println("An error occurred");
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+    }
+    public String getPeriodicOrdersBySupplierID(String supplierID)
+    {
+        try
+        {
+            PreparedStatement stmt23123 = conn.prepareStatement("SELECT * FROM PeriodicOrder WHERE SupplierID=?");
+            stmt23123.setInt(1,Integer.parseInt(supplierID));
+            ResultSet rs= stmt23123.executeQuery();
+            if (rs.next())
+                return String.valueOf(rs.getInt("OrderID"));
+        }
+        catch(SQLException e)
+        {
+            System.out.println("An error occurred");
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
+        return null;
+    }
+
+    public int getMaxPeriodicOrderNumber()
+    {
+
+        int max_PeriodicOrderID=0;
+        try {
+            PreparedStatement stmt44 = conn.prepareStatement("SELECT MAX(OrderID) FROM PeriodicOrder");
+            ResultSet rs = stmt44.executeQuery();
+            while (rs.next()) {
+                max_PeriodicOrderID = rs.getInt(1) ;
+            }
+
+        } catch (SQLException e)
+        {
+            System.out.println("An error occurred");
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+
+        }
+        return max_PeriodicOrderID;
+    }
+
+    public int getMaxShortageOrderNumber()
+    {
+
+        int max_ShortageOrderID=0;
+        try {
+            PreparedStatement stmt44 = conn.prepareStatement("SELECT MAX(OrderID) FROM ShortageOrders");
+            ResultSet rs = stmt44.executeQuery();
+            while (rs.next()) {
+                max_ShortageOrderID = rs.getInt(1) ;
+            }
+
+        } catch (SQLException e)
+        {
+            System.out.println("An error occurred");
+            e.printStackTrace();
+            System.out.println(e.getMessage());
+
+        }
+        return max_ShortageOrderID;
+    }
+
 }

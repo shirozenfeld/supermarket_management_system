@@ -34,7 +34,10 @@ public class ItemDAO extends AbstractDAO {
             Item item = (Item)obj;
             PreparedStatement stmt = con.prepareStatement("UPDATE Item SET DamageType = ?, ExpiryDate = ?, Location = ?, AfterDiscountPrice = ? WHERE ItemID = ?");
             stmt.setString(1, item.getDamageType());
-            stmt.setDate(2, Date.valueOf(item.getExpireDate()));
+            if(item.getExpireDate() != null)
+                stmt.setDate(2, Date.valueOf(item.getExpireDate()));
+            else
+                stmt.setDate(2, null);
             stmt.setString(3, item.getLocationInBranch().name());
             stmt.setDouble(4, item.getAfterDiscountPrice());
             stmt.setInt(5, item.getID());
@@ -170,7 +173,7 @@ public class ItemDAO extends AbstractDAO {
                     rate = 0;
                 LocalDate expire;
                 if(rs.getDate("ExpiryDate")!=null)
-                   expire =  rs.getDate("ExpiryDate").toLocalDate();
+                    expire =  rs.getDate("ExpiryDate").toLocalDate();
                 else
                     expire = null;
                 Item item = new Item(bi.getName(), bi.getCatalogNum(), bi.getManufacturer(), bi.getCostPrice(), bi.getItemCategories(), invi.getSellPrice(), rate, rs.getInt("ItemID"), expire, damaged, rs.getString("DamageType"), location, bi.getIDcounter());

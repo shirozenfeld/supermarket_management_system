@@ -1,5 +1,7 @@
 package BusinessLayer.InventoryModule;
 
+import DataAccessLayer.InventoryModule.CategoryDAO;
+
 import java.util.ArrayList;
 import java.util.Formatter;
 
@@ -27,7 +29,8 @@ public class ReportMaker {
         Formatter fmt = new Formatter();
         for (int i=0; i<cats.size(); i++){
             int cID = cats.get(i);
-            Category cat = branch.categoryIsInStore(cID);
+            //Category cat = branch.categoryIsInStore(cID);
+            Category cat = (Category)CategoryDAO.getInstance().getById(cID);
             categories.add(cat);
             if (cat == null) {
                 return fmt.format("");

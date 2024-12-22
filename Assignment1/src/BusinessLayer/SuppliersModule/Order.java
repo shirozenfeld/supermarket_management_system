@@ -4,7 +4,9 @@ import java.util.*;
 import java.time.LocalDate;
 public class Order
 {
-    static int counter=0;
+    static int shortage_orders_counter=0;
+    static int periodic_orders_counter=0;
+
     //Supplier supplier;
     String supplierID;
     Map<java.lang.Integer,java.lang.Integer> products_list;
@@ -16,10 +18,13 @@ public class Order
     String type; // periodic/shortage
     String reportId;
 
-    public Order(String type,String supplierID)
+    public Order(String type,String supplierID,String reportId)
     {
-        counter++;
-        this.order_id=Integer.toString(counter);
+        // new shortage orders from menu
+        shortage_orders_counter++;
+        this.order_id=String.valueOf(shortage_orders_counter);
+        this.reportId=reportId;
+        //this.order_id=Integer.toString(counter);
         this.first_price=0.0;
         this.finale_price=0.0;
         this.products_list=new HashMap<java.lang.Integer,java.lang.Integer>();
@@ -27,7 +32,7 @@ public class Order
         this.type=type;
         this.supplierID=supplierID;
     }
-    public Order(String type,String supplierID,String reportID)
+    /*public Order(String type,String supplierID,String reportID)
     {
         counter++;
         this.order_id=Integer.toString(counter);
@@ -40,9 +45,13 @@ public class Order
         this.reportId=reportID;
     }
 
-    public Order(String type,String supplierID, String order_id,String reportId)
+
+     */
+    public Order(String type,String supplierID)
     {
-        this.order_id = order_id;
+        //periodic order
+        periodic_orders_counter++;
+        this.order_id = String.valueOf(periodic_orders_counter);
         this.first_price=0.0;
         this.finale_price=0.0;
         this.products_list=new HashMap<java.lang.Integer,java.lang.Integer>();

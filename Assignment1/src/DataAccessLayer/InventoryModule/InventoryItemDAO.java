@@ -52,7 +52,11 @@ public class InventoryItemDAO extends AbstractDAO {
                 stmt2.setString(3, nowS);
                 stmt2.executeUpdate();
             }
-            if(invi.getCurrDiscount()!=null) {
+            PreparedStatement stmt3 = con.prepareStatement("SELECT * FROM InventoryDiscounts WHERE Barcode = ? \n");
+            stmt3.setDouble(1, invi.getCatalogNum());
+            ResultSet rs3 = stmt3.executeQuery();
+            int dis = rs3.getInt("DiscountID");
+            if(invi.getCurrDiscount()!=null && invi.getCurrDiscount().getDiscountID() != dis) {
                 PreparedStatement stmt2 = con.prepareStatement("INSERT INTO InventoryDiscounts (DiscountID, Barcode) \n" +
                         "VALUES (?,?)\n");
                 stmt2.setInt(1, invi.getCurrDiscount().getDiscountID());
@@ -141,7 +145,7 @@ public class InventoryItemDAO extends AbstractDAO {
                     allInvis.add(InventoryItems.get(rs.getInt("Barcode")));
                     continue;
                 }
-                InventoryItem invi = new InventoryItem(rs.getInt("Barcode"),rs.getInt("MinimumAmount"), rs.getInt("SellPrice"), rs.getInt("BranchID"));
+                InventoryItem invi = new InventoryItem(rs.getInt("Barcode"),rs.getInt("MinimumAmount"), rs.getDouble("SellPrice"), rs.getInt("BranchID"));
                 invi.setCountedInStore(rs.getInt("CountedInStore"));
                 invi.setCountedInWareHouse(rs.getInt("CountedInWarehouse"));
                 invi.setCountedAmount(rs.getInt("CountedInStore") + rs.getInt("CountedInWarehouse"));
@@ -210,7 +214,7 @@ public class InventoryItemDAO extends AbstractDAO {
             stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
-                InventoryItem invi = new InventoryItem(rs.getInt("Barcode"), rs.getInt("MinimumAmount"), rs.getInt("SellPrice"), rs.getInt("BranchID"));
+                InventoryItem invi = new InventoryItem(rs.getInt("Barcode"), rs.getInt("MinimumAmount"), rs.getDouble("SellPrice"), rs.getInt("BranchID"));
                 invi.setCountedInStore(rs.getInt("CountedInStore"));
                 invi.setCountedInWareHouse(rs.getInt("CountedInWarehouse"));
                 invi.setCountedAmount(rs.getInt("CountedInStore") + rs.getInt("CountedInWarehouse"));
@@ -240,7 +244,7 @@ public class InventoryItemDAO extends AbstractDAO {
                 stmt4.setInt(1, id);
                 ResultSet rs4 = stmt4.executeQuery();
                 while (rs4.next()) {
-                    discount = (Discount) DiscountDAO.getInstance().getById(rs4.getInt("Discount_ID"));
+                    discount = (Discount) DiscountDAO.getInstance().getById(rs4.getInt("DiscountID"));
                     disH.add(discount);
                 }
                 invi.setDiscountHistory(disH);
@@ -292,3 +296,4 @@ public class InventoryItemDAO extends AbstractDAO {
     }
 
 }
+

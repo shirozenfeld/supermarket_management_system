@@ -225,8 +225,6 @@ public class SupplierProductDAO
 
     public SupplierProduct getSupplierProduct(String barcode, String supplier_id)
     {
-        if (identityMap.containsKey(barcode+","+supplier_id))
-            return identityMap.get(barcode+","+supplier_id);
 
         int_barcode = Integer.parseInt(barcode);
         int_supplier_id = Integer.parseInt(supplier_id);

@@ -1,18 +1,25 @@
 package PresentationLayer.SuppliersModule.GUI;
-import java.awt.Point;
+
 public class GUIForm
 {
-    public static SuppliersMenu suppliersMenu= new SuppliersMenu();
-    public static AddSupplier addSupplier= new AddSupplier();
-    public static RemoveSupplier removeSupplier = new RemoveSupplier();
-    public static UpdateCard updateCard = new UpdateCard();
-    public static UpdateContract updateContract = new UpdateContract();
-    public static UpdateVisitingDay updateVisitingDay= new UpdateVisitingDay();
-    public static WatchVisitingDay watchVisitingDay = new WatchVisitingDay();
-    public static AddManufacturer addManufacturer = new AddManufacturer();
-    public static HandleDeficiencies handleDeficiencies = new HandleDeficiencies();
-    public static WatchSuppliersContracts watchSuppliersContracts = new WatchSuppliersContracts();
-    public static AddPeriodicOrder addPeriodicOrder = new AddPeriodicOrder();
+    public static AddSupplierDiscount addSupplierDiscount;
+    public static AddSupplierProduct addSupplierProduct;
+
+    public static UpdateContract updateSuppliersContract;
+    public static DelayDaysWindow delayDaysWindow;
+    public static SuppliersMenu suppliersMenu;
+    public static AddSupplier addSupplier;
+    public static ShortageDeliveryWindow shortageDeliveryWindow;
+    public static UpdateContract updateContract;
+    public static AddManufacturer addManufacturer;
+    public static HandleDeficiencies handleDeficiencies;
+    public static WatchSuppliersContracts watchSuppliersContracts;
+
+    public static AddPeriodicOrder addPeriodicOrder;
+    public static WatchHistoryOrders watchHistoryOrders;
+
+    public static AddToSuppliersContract addToSuppliersContract;
+
 
 
 

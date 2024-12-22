@@ -96,10 +96,8 @@ public class SuperLiDAO {
                     Category cat = (Category) CategoryDAO.getInstance().getById(rs2.getInt("CategoryID"));
                     cats.add(cat);
                 }
-                if (rs1.next()) {
-                    BasicItem bi = new BasicItem(rs1.getString("BasicItemName"), rs1.getInt("Barcode"), rs1.getString("ManufacturerName"), rs1.getDouble("CostPrice"), cats, rs1.getInt("Counter"));
-                    allbi.put(bi.getCatalogNum(), bi);
-                }
+                BasicItem bi = new BasicItem(rs1.getString("BasicItemName"), rs1.getInt("Barcode"), rs1.getString("ManufacturerName"), rs1.getDouble("CostPrice"), cats, rs1.getInt("Counter"));
+                allbi.put(bi.getCatalogNum(), bi);
             }
         }
         catch (SQLException e){
